@@ -58,11 +58,13 @@ app.use(mongoSanitize({
     replaceWith: '_'
 }));
 
+const secret = process.env.SECRET || 'secret'
+
 const store = MongoDBStore.create({
     mongoUrl: dbUrl,
     touchAfter: 24 * 60 * 60,
     crypto: {
-        secret: process.env.SECRET || 'secret'
+        secret: secret
     }
 })
 
@@ -73,7 +75,7 @@ store.on("error", function (e) {
 const sessionConfig = {
     store,
     name: 'session',
-    secret: process.env.SECRET || 'secret',
+    secret: secret,
     resave: false,
     saveUninitialized: true,
     cookie: {
@@ -131,7 +133,9 @@ app.use((err, req, res, next) => {
     res.status(statusCode).render('error', { err })
 })
 
-app.listen(3000, () => {
+const port = process.env.PORT || 3000;
+
+app.listen(port, () => {
     console.log('Serving on port 3000')
 })
 
