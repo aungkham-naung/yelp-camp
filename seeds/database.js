@@ -1,3 +1,7 @@
+if (process.env.NODE_ENV !== 'production') {
+    require('dotenv').config();
+}
+
 const mongoose = require('mongoose')
 const Campground = require('../models/campground')
 const cities = require('./cities')
@@ -7,7 +11,7 @@ const { descriptors, places } = require('./seedHelpers')
 //mongoose database set-up
 mongoose.connect(dbUrl, {
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
 })
 
 //database connection with error checking
